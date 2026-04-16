@@ -1,4 +1,9 @@
 <div class="min-h-screen text-gray-100 p-6">
+  <!-- Always show router-outlet, it will be empty when no child route matches -->
+  <router-outlet></router-outlet>
+
+  <!-- Dashboard when at /logistics (not a child route) -->
+  <div *ngIf="!isChildRoute">
   <!-- Header Section with Gradient Background - Matching Previous Design -->
   <div
     class="relative bg-gradient-to-r from-slate-800 to-slate-800/50 rounded-2xl border border-slate-700/50 overflow-hidden mb-8"
@@ -598,5 +603,6 @@
         Get a bird's eye view of all your shipments and logistics operations.
       </p>
     </div>
+  </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +20,9 @@ import { HrTasksComponent } from './pages/hr/hr-tasks.component';
 import { HrLmsComponent } from './pages/hr/hr-lms.component';
 import { FinanceComponent } from './pages/finance/finance.component';
 import  {LogisticsComponent} from './pages/logistics/logistics.component';
+import { BookingComponent } from './pages/logistics/booking/booking.component';
+import { TrackingComponent } from './pages/logistics/tracking/tracking.component';
+import { ControlTowerComponent } from './pages/logistics/control-tower/control-tower.component';
 import { VendorsComponent } from './pages/vendors/vendors.component';
 import { RecordsComponent } from './pages/records/records.component';
 import { SettingsComponent } from './pages/settings/settings.component';
@@ -48,13 +51,16 @@ import { AuthGuard } from './guards/auth.guard';
     HrLmsComponent,
     FinanceComponent,
     LogisticsComponent,
+    BookingComponent,
+    TrackingComponent,
+    ControlTowerComponent,
     VendorsComponent,
     RecordsComponent,
     SettingsComponent,
     WarehouseComponent,
     DashboardLayoutComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule],
   providers: [HttpService, AuthService, AuthGuard],
   bootstrap: [AppComponent],
 })

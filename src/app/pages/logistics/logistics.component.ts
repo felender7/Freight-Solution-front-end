@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 interface Shipment {
   trackingNumber: string;
@@ -19,6 +20,7 @@ interface Shipment {
 export class LogisticsComponent implements OnInit {
   activeTab = 'overview';
   trackingNumber = '';
+  isChildRoute = false;
   
   inTransitCount = 8;
   pendingPickupCount = 3;
@@ -83,7 +85,18 @@ export class LogisticsComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Load any initial data if needed
+    this.checkRoute();
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.checkRoute();
+    });
+  }
+
+  private checkRoute(): void {
+    const url = this.router.url.split('?')[0];
+    const normalizedUrl = url.endsWith('/') ? url.slice(0, -1) : url;
+    this.isChildRoute = normalizedUrl !== '/logistics';
   }
 
   setTab(tab: string): void {
