@@ -1,0 +1,259 @@
+<div class="w-full px-6 mt-8">
+  <!-- Header Section with Gradient Background -->
+  <div class="relative bg-gradient-to-r from-slate-800 to-slate-800/50 rounded-2xl border border-slate-700/50 overflow-hidden mb-8">
+    <!-- Decorative Elements -->
+    <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+    <div class="absolute bottom-0 left-0 w-48 h-48 bg-yellow-500/10 rounded-full blur-2xl -ml-24 -mb-24"></div>
+    
+    <div class="relative z-10 p-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 bg-emerald-500/20 rounded-xl">
+              <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <h1 class="text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">
+              Finance Management
+            </h1>
+          </div>
+          <p class="text-slate-400 ml-11">General Ledger, Accounts Payable/Receivable, Invoicing, Multi-currency support</p>
+        </div>
+        
+        <!-- Quick Stats Badges -->
+       <div class="flex gap-3 ml-11 lg:ml-0">
+  
+  <!-- Revenue -->
+  <div class="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
+    <!-- Money Icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" 
+         class="w-4 h-4 text-emerald-400" 
+         fill="none" 
+         viewBox="0 0 24 24" 
+         stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-10v10m0 0c-1.657 0-3-.895-3-2m3 2c1.657 0 3-.895 3-2" />
+    </svg>
+
+    <span class="text-emerald-400 text-sm">
+      This Month: R124,500
+    </span>
+  </div>
+
+  <!-- Invoices -->
+  <div class="flex items-center gap-2 px-3 py-1.5 bg-blue-500/10 rounded-lg border border-blue-500/20">
+    <!-- Chart Icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" 
+         class="w-4 h-4 text-blue-400" 
+         fill="none" 
+         viewBox="0 0 24 24" 
+         stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M3 3v18h18M9 17V9m4 8v-4m4 4v-6" />
+    </svg>
+
+    <span class="text-blue-400 text-sm">
+      12 Invoices Pending
+    </span>
+  </div>
+
+</div>
+      </div>
+    </div>
+    
+    <!-- Navigation Tabs for Finance Modules -->
+    <div class="relative z-10 px-6 border-t border-slate-700/50">
+      <div class="flex overflow-x-auto scrollbar-hide gap-1 py-3">
+        <!-- General Ledger Tab -->
+        <a routerLink="ledger" 
+           routerLinkActive="active-tab" 
+           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200 whitespace-nowrap">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-6 3v-3m-6 3h18M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/>
+            </svg>
+            <span>General Ledger</span>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full opacity-0 group-[.active-tab]:opacity-100 transition-opacity"></div>
+        </a>
+
+        <!-- Accounts Payable Tab -->
+        <a routerLink="payable" 
+           routerLinkActive="active-tab" 
+           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200 whitespace-nowrap">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span>Accounts Payable</span>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full opacity-0 group-[.active-tab]:opacity-100 transition-opacity"></div>
+        </a>
+
+        <!-- Accounts Receivable Tab -->
+        <a routerLink="receivable" 
+           routerLinkActive="active-tab" 
+           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200 whitespace-nowrap">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+            </svg>
+            <span>Accounts Receivable</span>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full opacity-0 group-[.active-tab]:opacity-100 transition-opacity"></div>
+        </a>
+
+        <!-- Invoicing Tab -->
+        <a routerLink="invoicing" 
+           routerLinkActive="active-tab" 
+           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200 whitespace-nowrap">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span>Invoicing</span>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full opacity-0 group-[.active-tab]:opacity-100 transition-opacity"></div>
+        </a>
+
+        <!-- Multi-Currency Tab -->
+        <a routerLink="currency" 
+           routerLinkActive="active-tab" 
+           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200 whitespace-nowrap">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <span>Multi-Currency</span>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full opacity-0 group-[.active-tab]:opacity-100 transition-opacity"></div>
+        </a>
+
+        <!-- Reports Tab -->
+        <a routerLink="reports" 
+           routerLinkActive="active-tab" 
+           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium text-slate-400 hover:text-slate-200 transition-all duration-200 whitespace-nowrap">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span>Reports</span>
+          </div>
+          <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full opacity-0 group-[.active-tab]:opacity-100 transition-opacity"></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Area with Animation -->
+  <div class="animate-fade-in">
+    <!-- Finance Stats Overview Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- Total Revenue Card -->
+      <div class="group bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-2xl border border-slate-700/50 p-6 hover:border-emerald-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/5">
+        <div class="flex items-center justify-between mb-4">
+          <div class="p-3 bg-emerald-500/20 rounded-xl group-hover:bg-emerald-500/30 transition-colors">
+            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <span class="text-xs text-green-400 bg-green-500/10 px-2 py-1 rounded-full">+18%</span>
+        </div>
+        <div>
+          <p class="text-sm text-slate-400 mb-1">Total Revenue</p>
+          <p class="text-2xl font-bold text-slate-100">R1,245,890</p>
+          <p class="text-xs text-slate-500 mt-2">Year to date</p>
+        </div>
+      </div>
+
+      <!-- Accounts Payable Card -->
+      <div class="group bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-2xl border border-slate-700/50 p-6 hover:border-orange-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-orange-500/5">
+        <div class="flex items-center justify-between mb-4">
+          <div class="p-3 bg-orange-500/20 rounded-xl group-hover:bg-orange-500/30 transition-colors">
+            <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+          </div>
+          <span class="text-xs text-yellow-400 bg-yellow-500/10 px-2 py-1 rounded-full">23 due soon</span>
+        </div>
+        <div>
+          <p class="text-sm text-slate-400 mb-1">Accounts Payable</p>
+          <p class="text-2xl font-bold text-slate-100">R342,500</p>
+          <p class="text-xs text-slate-500 mt-2">Outstanding payments</p>
+        </div>
+      </div>
+
+      <!-- Accounts Receivable Card -->
+      <div class="group bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-2xl border border-slate-700/50 p-6 hover:border-blue-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/5">
+        <div class="flex items-center justify-between mb-4">
+          <div class="p-3 bg-blue-500/20 rounded-xl group-hover:bg-blue-500/30 transition-colors">
+            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+            </svg>
+          </div>
+          <span class="text-xs text-green-400 bg-green-500/10 px-2 py-1 rounded-full">+12%</span>
+        </div>
+        <div>
+          <p class="text-sm text-slate-400 mb-1">Accounts Receivable</p>
+          <p class="text-2xl font-bold text-slate-100">R528,750</p>
+          <p class="text-xs text-slate-500 mt-2">Expected payments</p>
+        </div>
+      </div>
+
+      <!-- Open Invoices Card -->
+      <div class="group bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-2xl border border-slate-700/50 p-6 hover:border-purple-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/5">
+        <div class="flex items-center justify-between mb-4">
+          <div class="p-3 bg-purple-500/20 rounded-xl group-hover:bg-purple-500/30 transition-colors">
+            <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </div>
+          <span class="text-xs text-yellow-400 bg-yellow-500/10 px-2 py-1 rounded-full">8 overdue</span>
+        </div>
+        <div>
+          <p class="text-sm text-slate-400 mb-1">Open Invoices</p>
+          <p class="text-2xl font-bold text-slate-100">47</p>
+          <p class="text-xs text-slate-500 mt-2">Total value: R186,430</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-2xl border border-slate-700/50 overflow-hidden">
+      <div class="px-6 py-4 border-b border-slate-700/50 flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-semibold text-slate-100">Financial Overview</h2>
+          <p class="text-sm text-slate-500">Recent transactions and insights</p>
+        </div>
+        <div class="flex gap-2">
+          <button class="px-3 py-1.5 text-sm bg-slate-700/50 hover:bg-slate-700 rounded-lg text-slate-300 transition-colors">
+            Export
+          </button>
+          <button class="px-3 py-1.5 text-sm bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded-lg transition-colors">
+            + New Invoice
+          </button>
+        </div>
+      </div>
+      
+      <div class="p-6">
+        <!-- Finance module content will be loaded here -->
+        <router-outlet></router-outlet>
+        
+        <!-- Temporary placeholder until routes are implemented -->
+        <div class="text-center py-12">
+          <div class="inline-flex p-4 bg-slate-700/30 rounded-full mb-4">
+            <svg class="w-12 h-12 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-slate-200 mb-2">Finance Module</h3>
+          <p class="text-slate-400 max-w-md mx-auto">
+            Select a section above to manage your financial operations including general ledger, accounts, invoicing, and multi-currency transactions.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

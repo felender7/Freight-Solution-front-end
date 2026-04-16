@@ -1,0 +1,57 @@
+<div class="min-h-screen bg-slate-900 flex items-center justify-center p-4">
+  <div class="w-full max-w-md">
+    <!-- Logo -->
+    <div class="flex justify-center mb-2">
+      <img src="assets/images/tswalanang-group-logo.png" alt="Tswalanang Group" class="h-50 w-auto object-contain">
+    </div>
+    
+    <!-- Title -->
+
+    <h3 class="text-center text-slate-300 text-xl font-semibold mb-8">Employees Portal</h3>
+    
+    <!-- Login Card -->
+    <div class="bg-slate-800 rounded-2xl p-8 border border-slate-700 shadow-2xl">
+      <div *ngIf="error" class="mb-5 p-3.5 bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg">
+        {{ error }}
+      </div>
+  
+      <form (ngSubmit)="onSubmit()">
+        <div class="mb-5">
+          <label class="block text-slate-300 text-sm font-medium mb-2">Email address</label>
+          <input
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            class="w-full px-4 py-3 bg-slate-900 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+            placeholder="you@company.com"
+            required
+          />
+        </div>
+        
+        <div class="mb-6">
+          <label class="block text-slate-300 text-sm font-medium mb-2">Password</label>
+          <input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            class="w-full px-4 py-3 bg-slate-900 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        
+        <button
+          type="submit"
+          [disabled]="loading"
+          class="w-full py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-semibold transition-all hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span *ngIf="loading">Signing in...</span>
+          <span *ngIf="!loading">Sign In</span>
+        </button>
+      </form>
+    </div>
+    
+    <!-- Footer -->
+    <p class="text-center text-slate-500 text-sm mt-6">© 2024 Tswalanang Freight. All rights reserved.</p>
+  </div>
+</div>

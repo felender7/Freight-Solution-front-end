@@ -1,0 +1,85 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800">
+  <!-- Top Navigation - Glassmorphism Style -->
+  <nav class="bg-slate-800/80 backdrop-blur-md border-b border-slate-700/50 fixed top-0 left-0 right-0 z-20 h-16 shadow-lg">
+    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 h-full">
+      <div class="flex items-center justify-between h-full">
+        <!-- Enhanced Search Bar - Centered -->
+        <div class="hidden md:flex flex-1 max-w-lg mx-auto">
+          <div class="relative w-full group">
+            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-500 group-focus-within:text-blue-400 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input type="text" placeholder="Search shipments, invoices, clients..." class="w-full pl-10 pr-4 py-2 bg-slate-700/50 border border-slate-600 rounded-xl text-slate-100 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-slate-700/80 transition-all duration-200 backdrop-blur-sm">
+            <kbd class="absolute right-3 top-1/2 transform -translate-y-1/2 hidden sm:inline-flex items-center gap-1 px-2 py-0.5 text-xs font-mono text-slate-400 bg-slate-700 rounded border border-slate-600">⌘K</kbd>
+          </div>
+        </div>
+
+        <!-- User Profile -->
+        <div class="flex items-center gap-4 group cursor-pointer">
+          <div class="text-right hidden sm:block">
+            <p class="text-slate-200 text-sm font-medium">{{ currentUser?.first_name }} {{ currentUser?.last_name }}</p>
+            <p class="text-slate-400 text-xs">Administrator</p>
+          </div>
+          <div class="relative">
+            <div class="w-9 h-9 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-sm font-semibold shadow-lg ring-2 ring-slate-700 group-hover:ring-blue-500 transition-all duration-200">
+              {{ currentUser?.first_name?.charAt(0) }}{{ currentUser?.last_name?.charAt(0) }}
+            </div>
+            <div class="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-slate-800"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar - Compact Design Without Scrollbar -->
+  <aside class="fixed inset-y-0 left-0 w-64 bg-slate-800/50 backdrop-blur-sm border-r border-slate-700/50 z-30 shadow-xl flex flex-col">
+    <!-- Logo Area - Moved Up, No Extra Padding -->
+    <div class="pt-2 pb-6 px-5 border-b border-slate-700/50">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center shadow-md">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+            </svg>
+          </div>
+          <span class="text-slate-100 text-lg font-bold tracking-tight">Tswalanang</span>
+        </div>
+        <span class="text-xs text-blue-400 font-mono bg-blue-500/10 px-2 py-0.5 rounded">v2.0</span>
+      </div>
+    </div>
+    
+    <!-- Navigation Menu - No Scroll, All Items Visible -->
+    <nav class="flex-1 py-6 px-3 space-y-1">
+      <a *ngFor="let item of menuItems" 
+         [routerLink]="item.route" 
+         routerLinkActive="bg-blue-500/20 text-blue-400 border-l-4 border-blue-500"
+         class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:bg-slate-700/50 hover:text-slate-200 transition-all duration-150 group relative">
+        <div class="w-5 h-5 flex-shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="item.icon"/>
+          </svg>
+        </div>
+        <span class="text-sm font-medium">{{ item.label }}</span>
+        <!-- Active indicator dot -->
+        <div class="absolute right-3 w-1.5 h-1.5 rounded-full bg-blue-500 opacity-0 group-[.bg-blue-500\\/20]:opacity-100 transition-opacity"></div>
+      </a>
+    </nav>
+    
+    <!-- Logout Button at Bottom -->
+    <div class="p-3 mb-4">
+      <button (click)="logout()" class="flex items-center gap-3 px-3 py-2.5 w-full rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all duration-200 group">
+        <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+        </svg>
+        <span class="text-sm font-medium">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="pt-16 pl-64 p-8 min-h-screen bg-slate-900/30">
+    <div class="animate-fade-in">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
