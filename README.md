@@ -1,27 +1,58 @@
-# TfsApp
+# Freight Solution - Front End
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+A freight management and logistics application built with Angular.
 
-## Development server
+## Prerequisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Node.js (v18+)
+- Angular CLI (v16+)
+- npm or yarn
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+npm install
+```
+
+## Development
+
+Run the development server:
+
+```bash
+ng serve
+```
+
+Navigate to `http://localhost:4200/`. The app reloads automatically when source files change.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Build for production:
 
-## Running unit tests
+```bash
+ng build
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Production artifacts are stored in the `dist/` directory.
 
-## Running end-to-end tests
+## Project Structure
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```
+src/
+├── app/               # Application source code
+├── assets/            # Static assets (images, fonts, etc.)
+├── environments/      # Environment configuration files
+└── styles.scss        # Global styles
+```
 
-## Further help
+## Technology Stack
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Angular 16
+- TypeScript
+- Tailwind CSS
+- Karma (testing)
+
+## Additional Commands
+
+- Generate components: `ng generate component component-name`
+- Run tests: `ng test`
+- Run e2e tests: `ng e2e`
