@@ -15,6 +15,10 @@ export enum Services {
 // 2. HR Management
     HR_DASHBOARD = 'hr/dashboard',
     HR_PROFILE = 'hr/profile',
+    HR_ATTENDANCE = '/hrm/attendance_records',
+    HR_ATTENDANCE_STATUS = '/hrm/attendance_records/current_status',
+    HR_ATTENDANCE_CLOCK_IN = '/hrm/attendance_records/clock_in',
+    HR_ATTENDANCE_CLOCK_OUT = '/hrm/attendance_records/clock_out',
 
 // 3. Logistics
     VENDORS = '/vendors',
