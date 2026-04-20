@@ -32,9 +32,7 @@ export class HttpService {
     params?: Record<string, string | number | boolean>
   ): Observable<T> {
     const url = `${this.baseUrl}${endpoint}`;
-    const options: any = {
-      headers: this.getHeaders()
-    };
+    const options: any = { headers: this.getHeaders() };
 
     if (params) {
       options.params = new HttpParams({ fromObject: params });
@@ -56,6 +54,9 @@ export class HttpService {
         request$ = this.http.patch<T>(url, payload, options) as Observable<T>;
         break;
       case 'DELETE':
+        if (payload) {
+          options.body = payload;
+        }
         request$ = this.http.delete<T>(url, options) as Observable<T>;
         break;
       default:

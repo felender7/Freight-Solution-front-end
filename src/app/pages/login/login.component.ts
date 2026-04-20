@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/update-password']);
         } else {
           this.router.navigate(['/dashboard']);
+          console.log('Login successful, response:', response);
         }
       },
       error: (err) => {

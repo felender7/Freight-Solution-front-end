@@ -14,7 +14,11 @@ import { HrTasksComponent } from './pages/hr/hr-tasks.component';
 import { HrLmsComponent } from './pages/hr/hr-lms.component';
 import { FinanceComponent } from './pages/finance/finance.component';
 import { LogisticsComponent } from './pages/logistics/logistics.component';
+import { BookingComponent } from './pages/logistics/booking/booking.component';
+import { TrackingComponent } from './pages/logistics/tracking/tracking.component';
+import { ControlTowerComponent } from './pages/logistics/control-tower/control-tower.component';
 import { VendorsComponent } from './pages/vendors/vendors.component';
+import { VendorDetailComponent } from './pages/vendors/vendor-detail/vendor-detail.component';
 import { RecordsComponent } from './pages/records/records.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { WarehouseComponent } from './pages/warehouse/warehouse.component';
@@ -46,8 +50,18 @@ const routes: Routes = [
         ],
       },
       { path: 'finance', component: FinanceComponent },
-      { path: 'logistics', component: LogisticsComponent },
+      {
+        path: 'logistics',
+        component: LogisticsComponent,
+        children: [
+          { path: 'booking', component: BookingComponent },
+          { path: 'tracking', component: TrackingComponent },
+          { path: 'tracking/:trackingNumber', component: TrackingComponent },
+          { path: 'control-tower', component: ControlTowerComponent },
+        ]
+      },
       { path: 'vendors', component: VendorsComponent },
+      { path: 'vendors/:id', component: VendorDetailComponent },
       { path: 'warehouse', component: WarehouseComponent },
       { path: 'records', component: RecordsComponent },
       { path: 'settings', component: SettingsComponent },
