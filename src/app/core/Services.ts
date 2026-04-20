@@ -15,4 +15,8 @@ export enum Services {
 // 2. HR Management
     HR_DASHBOARD = 'hr/dashboard',
     HR_PROFILE = 'hr/profile',
+
+// 3. Logistics
+    VENDORS = '/vendors',
+    VENDOR_STATS = '/vendors/stats',
 }

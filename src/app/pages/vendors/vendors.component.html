@@ -24,10 +24,10 @@
         <!-- Quick Stats Badges -->
         <div class="flex gap-3 ml-11 lg:ml-0">
           <div class="px-3 py-1.5 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
-            <span class="text-emerald-400 text-sm">✅ Active: {{ activeVendors || 0 }}</span>
+            <span class="text-emerald-400 text-sm">Active: {{ activeVendors || 0 }}</span>
           </div>
           <div class="px-3 py-1.5 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
-            <span class="text-yellow-400 text-sm">⏳ Pending: {{ pendingVendorsCount || 0 }}</span>
+            <span class="text-yellow-400 text-sm">Pending: {{ pendingVendorsCount || 0 }}</span>
           </div>
         </div>
       </div>
@@ -37,54 +37,54 @@
     <div class="relative z-10 px-6 border-t border-slate-700/50">
       <div class="flex overflow-x-auto scrollbar-hide gap-2 py-3">
         <!-- Vendor Registry Tab -->
-        <a routerLink="registry" 
-           routerLinkActive="active-tab" 
-           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2 bg-slate-700/30 hover:bg-purple-500/20 text-slate-300 hover:text-purple-300">
+        <button (click)="setTab('registry')" 
+           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2"
+           [class.active-tab]="activeTab === 'registry'">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
           </svg>
           <span>Vendor Registry</span>
-        </a>
+        </button>
 
         <!-- Performance Tab -->
-        <a routerLink="performance" 
-           routerLinkActive="active-tab" 
-           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2 bg-slate-700/30 hover:bg-purple-500/20 text-slate-300 hover:text-purple-300">
+        <button (click)="setTab('performance')" 
+           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2"
+           [class.active-tab]="activeTab === 'performance'">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
           </svg>
           <span>Performance</span>
-        </a>
+        </button>
 
         <!-- Contracts Tab -->
-        <a routerLink="contracts" 
-           routerLinkActive="active-tab" 
-           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2 bg-slate-700/30 hover:bg-purple-500/20 text-slate-300 hover:text-purple-300">
+        <button (click)="setTab('contracts')" 
+           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2"
+           [class.active-tab]="activeTab === 'contracts'">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
           </svg>
           <span>Contracts</span>
-        </a>
+        </button>
 
         <!-- Payments Tab -->
-        <a routerLink="payments" 
-           routerLinkActive="active-tab" 
-           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2 bg-slate-700/30 hover:bg-purple-500/20 text-slate-300 hover:text-purple-300">
+        <button (click)="setTab('payments')" 
+           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2"
+           [class.active-tab]="activeTab === 'payments'">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
           </svg>
           <span>Payments</span>
-        </a>
+        </button>
 
         <!-- Compliance Tab -->
-        <a routerLink="compliance" 
-           routerLinkActive="active-tab" 
-           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2 bg-slate-700/30 hover:bg-purple-500/20 text-slate-300 hover:text-purple-300">
+        <button (click)="setTab('compliance')" 
+           class="tab-item group relative px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap flex items-center gap-2"
+           [class.active-tab]="activeTab === 'compliance'">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
           </svg>
           <span>Compliance</span>
-        </a>
+        </button>
       </div>
     </div>
   </div>
@@ -99,11 +99,10 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
           </svg>
         </div>
-        <span class="text-xs text-green-400 bg-green-500/10 px-2 py-1 rounded-full">+8%</span>
       </div>
       <div>
         <p class="text-sm text-slate-400 mb-1">Total Vendors</p>
-        <p class="text-3xl font-bold text-slate-100">{{ totalVendors || 24 }}</p>
+        <p class="text-3xl font-bold text-slate-100">{{ totalVendors }}</p>
         <p class="text-xs text-slate-500 mt-2">Registered vendors</p>
       </div>
     </div>
@@ -120,7 +119,7 @@
       </div>
       <div>
         <p class="text-sm text-slate-400 mb-1">Active Vendors</p>
-        <p class="text-3xl font-bold text-slate-100">{{ activeVendors || 18 }}</p>
+        <p class="text-3xl font-bold text-slate-100">{{ activeVendors }}</p>
         <p class="text-xs text-slate-500 mt-2">Currently active</p>
       </div>
     </div>
@@ -133,12 +132,12 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
           </svg>
         </div>
-        <span class="text-xs text-yellow-400 bg-yellow-500/10 px-2 py-1 rounded-full">Rating</span>
+        <span class="text-xs text-yellow-400 bg-yellow-500/10 px-2 py-1 rounded-full">Score</span>
       </div>
       <div>
         <p class="text-sm text-slate-400 mb-1">Avg Performance</p>
-        <p class="text-3xl font-bold text-slate-100">{{ avgPerformance || 4.8 }}<span class="text-lg text-slate-400">/5</span></p>
-        <p class="text-xs text-slate-500 mt-2">Based on 156 reviews</p>
+        <p class="text-3xl font-bold text-slate-100">{{ avgPerformance || 0 }}<span class="text-lg text-slate-400">/100</span></p>
+        <p class="text-xs text-slate-500 mt-2">Risk score average</p>
       </div>
     </div>
 
@@ -150,12 +149,11 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
           </svg>
         </div>
-        <span class="text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded-full">Active</span>
       </div>
       <div>
         <p class="text-sm text-slate-400 mb-1">Active Contracts</p>
-        <p class="text-3xl font-bold text-slate-100">{{ activeContracts || 32 }}</p>
-        <p class="text-xs text-slate-500 mt-2">12 expiring soon</p>
+        <p class="text-3xl font-bold text-slate-100">{{ activeContracts }}</p>
+        <p class="text-xs text-slate-500 mt-2">Valid contracts</p>
       </div>
     </div>
   </div>
@@ -164,7 +162,9 @@
   <div class="bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-2xl border border-slate-700/50 overflow-hidden">
     <div class="px-6 py-4 border-b border-slate-700/50 flex items-center justify-between flex-wrap gap-4">
       <div>
-        <h2 class="text-lg font-semibold text-slate-100">Vendor Overview</h2>
+        <h2 class="text-lg font-semibold text-slate-100">
+          {{ activeTab === 'registry' ? 'Vendor Registry' : (activeTab | titlecase) + ' Overview' }}
+        </h2>
         <p class="text-sm text-slate-500">Manage vendor relationships, contracts, and performance metrics</p>
       </div>
       <div class="flex gap-2">
@@ -174,77 +174,160 @@
           </svg>
           Export
         </button>
-        <button class="px-3 py-1.5 text-sm bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-lg transition-colors flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
-          </svg>
-          + Register Vendor
-        </button>
       </div>
     </div>
     
+    <!-- Filters -->
+    <div *ngIf="activeTab === 'registry'" class="px-6 py-4 border-b border-slate-700/30 flex flex-wrap gap-3">
+      <div class="flex-1 min-w-[200px]">
+        <input type="text" 
+          [(ngModel)]="searchTerm"
+          (keyup.enter)="search()"
+          placeholder="Search vendors..." 
+          class="w-full px-4 py-2 bg-slate-900/50 border border-slate-700/50 rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition-colors">
+      </div>
+      <select [(ngModel)]="selectedCategory" (change)="filter()"
+        class="px-4 py-2 bg-slate-900/50 border border-slate-700/50 rounded-lg text-slate-200 focus:outline-none focus:border-purple-500/50 transition-colors">
+        <option value="">All Categories</option>
+        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+      </select>
+      <select [(ngModel)]="selectedStatus" (change)="filter()"
+        class="px-4 py-2 bg-slate-900/50 border border-slate-700/50 rounded-lg text-slate-200 focus:outline-none focus:border-purple-500/50 transition-colors">
+        <option value="">All Statuses</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="pending">Pending</option>
+        <option value="suspended">Suspended</option>
+      </select>
+      <select [(ngModel)]="selectedKycStatus" (change)="filter()"
+        class="px-4 py-2 bg-slate-900/50 border border-slate-700/50 rounded-lg text-slate-200 focus:outline-none focus:border-purple-500/50 transition-colors">
+        <option value="">All KYC</option>
+        <option *ngFor="let kyc of kycStatuses" [value]="kyc">{{ kyc | titlecase }}</option>
+      </select>
+      <button (click)="clearFilters()" 
+        class="px-4 py-2 bg-slate-700/50 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors">
+        Clear
+      </button>
+    </div>
+    
     <div class="p-6">
-      <!-- Vendor module content will be loaded here -->
-      <router-outlet></router-outlet>
-      
-      <!-- Temporary placeholder until routes are implemented -->
-      <div class="text-center py-12">
+      <!-- Vendor Registry Content -->
+      <div *ngIf="activeTab === 'registry'" class="animate-in fade-in duration-500">
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead class="bg-slate-900/30">
+              <tr>
+                <th class="text-left text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">Vendor Name</th>
+                <th class="text-left text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">Category</th>
+                <th class="text-left text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">Email</th>
+                <th class="text-left text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">Phone</th>
+                <th class="text-left text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">Status</th>
+                <th class="text-left text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">KYC</th>
+                <th class="text-right text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-700/30">
+              <tr *ngFor="let vendor of vendors" class="hover:bg-slate-700/20 transition-colors group">
+                <td class="py-4 px-6">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 font-bold border border-purple-500/30">
+                      {{ vendor.name.charAt(0) }}
+                    </div>
+                    <span class="text-slate-100 font-medium">{{ vendor.name }}</span>
+                  </div>
+                </td>
+                <td class="py-4 px-6 text-slate-400">{{ vendor.category || 'N/A' }}</td>
+                <td class="py-4 px-6 text-slate-400">{{ vendor.email || 'N/A' }}</td>
+                <td class="py-4 px-6 text-slate-400">{{ vendor.phone || 'N/A' }}</td>
+                <td class="py-4 px-6">
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-medium border"
+                    [ngClass]="{
+                      'bg-emerald-500/10 text-emerald-400 border-emerald-500/20': vendor.status === 'active',
+                      'bg-yellow-500/10 text-yellow-400 border-yellow-500/20': vendor.status === 'pending',
+                      'bg-red-500/10 text-red-400 border-red-500/20': vendor.status === 'inactive' || vendor.status === 'suspended'
+                    }">
+                    {{ (vendor.status || 'active') | titlecase }}
+                  </span>
+                </td>
+                <td class="py-4 px-6">
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-medium border"
+                    [ngClass]="{
+                      'bg-green-500/10 text-green-400 border-green-500/20': vendor.kyc_status === 'verified',
+                      'bg-yellow-500/10 text-yellow-400 border-yellow-500/20': vendor.kyc_status === 'in_progress',
+                      'bg-red-500/10 text-red-400 border-red-500/20': vendor.kyc_status === 'rejected',
+                      'bg-slate-500/10 text-slate-400 border-slate-500/20': !vendor.kyc_status || vendor.kyc_status === 'pending'
+                    }">
+                    {{ (vendor.kyc_status || 'pending') | titlecase }}
+                  </span>
+                </td>
+                <td class="py-4 px-6 text-right">
+                  <button (click)="viewVendorDetail(vendor.id)" class="text-slate-400 hover:text-purple-400 transition-colors mr-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="vendors.length === 0 && !loading">
+                <td colspan="7" class="py-12 text-center text-slate-500">
+                  <div *ngIf="loading" class="flex flex-col items-center gap-3">
+                    <div class="w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+                    <span>Loading vendors...</span>
+                  </div>
+                  <div *ngIf="!loading && error" class="text-red-400">
+                    {{ error }}
+                  </div>
+                  <div *ngIf="!loading && !error && vendors.length === 0">
+                    No vendors found.
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div *ngIf="totalPages > 1" class="flex items-center justify-between mt-6 pt-4 border-t border-slate-700/30">
+          <div class="text-sm text-slate-500">
+            Page {{ currentPage }} of {{ totalPages }}
+          </div>
+          <div class="flex gap-2">
+            <button (click)="prevPage()" [disabled]="currentPage === 1"
+              class="px-3 py-1.5 text-sm bg-slate-700/50 hover:bg-slate-700 rounded-lg text-slate-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+              Previous
+            </button>
+            <button (click)="nextPage()" [disabled]="currentPage === totalPages"
+              class="px-3 py-1.5 text-sm bg-slate-700/50 hover:bg-slate-700 rounded-lg text-slate-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+              Next
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Other Tabs Placeholders -->
+      <div *ngIf="activeTab !== 'registry'" class="text-center py-12">
         <div class="inline-flex p-4 bg-slate-700/30 rounded-full mb-4">
           <svg class="w-12 h-12 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
           </svg>
         </div>
-        <h3 class="text-xl font-semibold text-slate-200 mb-2">Vendor Management Module</h3>
+        <h3 class="text-xl font-semibold text-slate-200 mb-2">{{ activeTab | titlecase }} Section</h3>
         <p class="text-slate-400 max-w-md mx-auto">
-          Select a section above to manage vendor registration, track performance, manage contracts, process payments, and ensure compliance.
+          The {{ activeTab }} section is currently being integrated with the backend services.
         </p>
-        
-        <!-- Quick Action Links -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto mt-8">
-          <div class="bg-slate-700/30 rounded-xl p-4 text-left hover:bg-slate-700/50 transition-colors cursor-pointer">
-            <div class="p-2 bg-purple-500/20 rounded-lg w-fit mb-3">
-              <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
-              </svg>
-            </div>
-            <h4 class="text-slate-200 font-medium mb-1">Register New Vendor</h4>
-            <p class="text-slate-500 text-sm">Add a new vendor to the system</p>
-          </div>
-          
-          <div class="bg-slate-700/30 rounded-xl p-4 text-left hover:bg-slate-700/50 transition-colors cursor-pointer">
-            <div class="p-2 bg-yellow-500/20 rounded-lg w-fit mb-3">
-              <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-              </svg>
-            </div>
-            <h4 class="text-slate-200 font-medium mb-1">View Performance</h4>
-            <p class="text-slate-500 text-sm">Track vendor KPIs and ratings</p>
-          </div>
-          
-          <div class="bg-slate-700/30 rounded-xl p-4 text-left hover:bg-slate-700/50 transition-colors cursor-pointer">
-            <div class="p-2 bg-blue-500/20 rounded-lg w-fit mb-3">
-              <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-            </div>
-            <h4 class="text-slate-200 font-medium mb-1">Manage Contracts</h4>
-            <p class="text-slate-500 text-sm">Review and renew vendor agreements</p>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </div>
 
 <style>
-  /* Active Tab Styles - Vibrant Colors */
   .active-tab {
     background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(236, 72, 153, 0.2)) !important;
     color: #c084fc !important;
     border: 1px solid rgba(147, 51, 234, 0.3);
   }
   
-  /* Default tab styling */
   .tab-item {
     background: rgba(51, 65, 85, 0.4);
     color: #94a3b8;
@@ -257,12 +340,10 @@
     transform: translateY(-1px);
   }
   
-  /* Hide scrollbar for Chrome, Safari and Opera */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
   
-  /* Hide scrollbar for IE, Edge and Firefox */
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;

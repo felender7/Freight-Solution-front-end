@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpService } from '../../../services/http.service';
+import { Services } from '../../../core/Services';
+import { Vendor } from '../../../models/vendor.model';
 
 interface Quote {
   id: string;
@@ -29,6 +32,9 @@ export class BookingComponent implements OnInit {
   selectedQuote: Quote | null = null;
   bookingConfirmed = false;
 
+  vendors: Vendor[] = [];
+  isLoadingVendors = false;
+
   modes = [
     { value: 'ocean', label: 'Ocean Freight', icon: '🚢' },
     { value: 'air', label: 'Air Freight', icon: '✈️' },
@@ -47,7 +53,8 @@ export class BookingComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private httpService: HttpService
   ) {}
 
   ngOnInit(): void {
@@ -62,6 +69,23 @@ export class BookingComponent implements OnInit {
       hazardous: [false],
       insurance: [false],
       pickupDate: [''],
+      vendor_id: ['', Validators.required],
+    });
+
+    this.loadVendors();
+  }
+
+  loadVendors(): void {
+    this.isLoadingVendors = true;
+    this.httpService.sendRequest<any>(Services.VENDORS, undefined, 'GET', { per_page: 100 }).subscribe({
+      next: (response) => {
+        this.vendors = response.vendors || [];
+        this.isLoadingVendors = false;
+      },
+      error: (err) => {
+        console.error('Failed to load vendors:', err);
+        this.isLoadingVendors = false;
+      }
     });
   }
 

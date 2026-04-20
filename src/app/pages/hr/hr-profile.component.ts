@@ -100,9 +100,75 @@ import { profileResponse } from '../../api/response/profileResponse';
         </div>
 
       </section>
+      
+
+    </div>
+    
+  </div>
+</div>
+<div *ngIf="!loading && profile" class="bg-slate-800 rounded-xl border border-slate-700 p-8 mt-6">
+
+  <div class="bg-slate-800 rounded-xl border border-slate-700 p-8 mt-6">
+    <h3 class="text-slate-100 font-semibold mb-6">Employment Documents</h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <!-- Contract -->
+      <a
+        *ngIf="profile.contract_url; else noContract"
+        [href]="profile.contract_url"
+        target="_blank"
+        class="p-4 bg-slate-900 border border-slate-700 rounded-lg flex items-center justify-between hover:border-blue-500/50 transition-colors group"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 bg-blue-500/10 rounded flex items-center justify-center">
+            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-slate-200 font-medium">Employment Contract</p>
+            <p class="text-xs text-slate-500">Click to view</p>
+            
+          </div>
+        </div>
+      </a>
+
+      <ng-template #noContract>
+        <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg opacity-50 cursor-not-allowed">
+          <p class="text-slate-400">No Employment Contract</p>
+        </div>
+      </ng-template>
+
+      <!-- Appointment Letter -->
+      <a *ngIf="profile.appointment_letter_url; else noLetter"
+        [href]="profile.appointment_letter_url"
+        target="_blank"
+        class="p-4 bg-slate-900 border border-slate-700 rounded-lg flex items-center justify-between hover:border-blue-500/50 transition-colors group"
+      >
+        <div class="flex items-center gap-4">
+          <div class="w-10 h-10 bg-blue-500/10 rounded flex items-center justify-center">
+            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-slate-200 font-medium">Appointment Letter</p>
+            <p class="text-xs text-slate-500">Click to view</p>
+         
+          </div>
+        </div>
+      </a>
+
+      <ng-template #noLetter>
+        <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg opacity-50 cursor-not-allowed">
+          <p class="text-slate-400">No Appointment Letter</p>
+        </div>
+      </ng-template>
 
     </div>
   </div>
+
 </div>
   `
 })

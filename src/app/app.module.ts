@@ -24,6 +24,7 @@ import { BookingComponent } from './pages/logistics/booking/booking.component';
 import { TrackingComponent } from './pages/logistics/tracking/tracking.component';
 import { ControlTowerComponent } from './pages/logistics/control-tower/control-tower.component';
 import { VendorsComponent } from './pages/vendors/vendors.component';
+import { VendorDetailComponent } from './pages/vendors/vendor-detail/vendor-detail.component';
 import { RecordsComponent } from './pages/records/records.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { WarehouseComponent } from './pages/warehouse/warehouse.component';
@@ -55,6 +56,7 @@ import { AuthGuard } from './guards/auth.guard';
     TrackingComponent,
     ControlTowerComponent,
     VendorsComponent,
+    VendorDetailComponent,
     RecordsComponent,
     SettingsComponent,
     WarehouseComponent,
