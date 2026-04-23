@@ -68,7 +68,7 @@ import { profileResponse } from '../../api/response/profileResponse';
         <div>
           <h3 class="text-slate-100 font-semibold border-b border-slate-700 pb-2">Employment</h3>
           <div class="grid gap-4 mt-4">
-            <div><label class="text-xs text-slate-500">Employee Code</label><p class="text-slate-200">{{ profile.employee_code || 'N/A' }}</p></div>
+            <div><label class="text-xs text-slate-500">Employee Code</label><p class="text-slate-200">#{{profile.id}}-{{ profile.employee_code || 'N/A' }}</p></div>
             <div><label class="text-xs text-slate-500">Position</label><p class="text-slate-200">{{ profile.position || 'N/A' }}</p></div>
             <div><label class="text-xs text-slate-500">Department</label><p class="text-slate-200">{{ profile.department || 'N/A' }}</p></div>
             <div><label class="text-xs text-slate-500">Employment Status</label><p class="text-slate-200">{{ profile.employment_status || 'N/A' }}</p></div>

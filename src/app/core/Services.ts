@@ -20,6 +20,9 @@ export enum Services {
     HR_ATTENDANCE_CLOCK_IN = '/hrm/attendance_records/clock_in',
     HR_ATTENDANCE_CLOCK_OUT = '/hrm/attendance_records/clock_out',
 
+// 3. Employee Management
+    EMPLOYEE_DETAILS = '/hrm/employees/',
+
 // 3. Logistics
     VENDORS = '/vendors',
     VENDOR_STATS = '/vendors/stats',
