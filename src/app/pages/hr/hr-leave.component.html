@@ -69,16 +69,12 @@
           </td>
           <td class="px-4 py-4 text-right">
             <div class="flex justify-end gap-2">
-              <a *ngIf="leave.medical_certificate_attached && leave.medical_certificate_url" [href]="leave.medical_certificate_url" target="_blank" class="text-indigo-400 hover:text-indigo-300 p-1" title="View Doctor's Note">
+              <button (click)="viewDetails(leave)" class="text-blue-400 hover:text-blue-300 p-1" title="View Details">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                 </svg>
-              </a>
-              <a *ngIf="leave.study_timetable_attached && leave.study_timetable_url" [href]="leave.study_timetable_url" target="_blank" class="text-indigo-400 hover:text-indigo-300 p-1" title="View Timetable">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </a>
+              </button>
               <ng-container *ngIf="!isAdmin() && ['sick', 'maternity', 'paternity'].includes(leave.leave_type) && !leave.medical_certificate_attached">
                 <label class="cursor-pointer text-blue-400 hover:text-blue-300 p-1" title="Upload Doctor's Note">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -178,6 +174,11 @@
         <input type="file" (change)="onFileSelected($event)" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 outline-none file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700">
       </div>
 
+      <div>
+        <label class="block text-sm font-medium text-slate-400 mb-1">Supporting Documents (Optional)</label>
+        <input type="file" multiple (change)="onDocumentsSelected($event)" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 outline-none file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700">
+      </div>
+
       <div class="pt-4 flex gap-3">
         <button type="button" (click)="closeModal()" class="flex-1 px-6 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-100 font-semibold rounded-lg transition-colors">
           Cancel
@@ -187,5 +188,79 @@
         </button>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- Details Modal -->
+<div *ngIf="showDetailsModal && selectedLeave" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4">
+  <div class="bg-slate-800 border border-slate-700 rounded-xl w-full max-w-2xl shadow-2xl">
+    <div class="flex justify-between items-center p-6 border-b border-slate-700">
+      <h3 class="text-lg font-bold text-slate-100">Leave Request Details</h3>
+      <button (click)="closeDetailsModal()" class="text-slate-400 hover:text-slate-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="p-6 space-y-6">
+      <div class="grid grid-cols-2 gap-6">
+        <div>
+          <p class="text-xs text-slate-500 uppercase font-semibold">Employee</p>
+          <p class="text-slate-100 mt-1">{{ selectedLeave.employee?.first_name }} {{ selectedLeave.employee?.last_name }}</p>
+        </div>
+        <div>
+          <p class="text-xs text-slate-500 uppercase font-semibold">Leave Type</p>
+          <p class="text-slate-100 mt-1">{{ getLeaveTypeLabel(selectedLeave.leave_type) }}</p>
+        </div>
+        <div>
+          <p class="text-xs text-slate-500 uppercase font-semibold">Period</p>
+          <p class="text-slate-100 mt-1">{{ selectedLeave.start_date | date }} - {{ selectedLeave.end_date | date }} ({{ selectedLeave.number_of_days }} Days)</p>
+        </div>
+        <div>
+          <p class="text-xs text-slate-500 uppercase font-semibold">Status</p>
+          <span [class]="'inline-block px-2 py-1 rounded-full text-xs mt-1 ' + getStatusClass(selectedLeave.status)">
+            {{ selectedLeave.status | titlecase }}
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <p class="text-xs text-slate-500 uppercase font-semibold">Reason</p>
+        <p class="text-slate-100 mt-1 p-3 bg-slate-900 rounded-lg border border-slate-700">{{ selectedLeave.reason }}</p>
+      </div>
+
+      <div *ngIf="selectedLeave.medical_certificate_attached || selectedLeave.study_timetable_attached || (selectedLeave.document_urls && selectedLeave.document_urls.length > 0)">
+        <p class="text-xs text-slate-500 uppercase font-semibold mb-3">Attached Documents</p>
+        <div class="flex flex-wrap gap-3">
+          <a *ngIf="selectedLeave.medical_certificate_url" [href]="selectedLeave.medical_certificate_url" target="_blank" class="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-blue-400 hover:bg-slate-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Doctor's Note
+          </a>
+          <a *ngIf="selectedLeave.study_timetable_url" [href]="selectedLeave.study_timetable_url" target="_blank" class="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-purple-400 hover:bg-slate-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            Timetable
+          </a>
+          <ng-container *ngIf="selectedLeave.document_urls">
+            <a *ngFor="let url of selectedLeave.document_urls; let i = index" [href]="url" target="_blank" class="flex items-center gap-2 px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm text-emerald-400 hover:bg-slate-700 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+              </svg>
+              Supporting Doc {{ i + 1 }}
+            </a>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-6 border-t border-slate-700 flex justify-end">
+      <button (click)="closeDetailsModal()" class="px-6 py-2 bg-slate-700 hover:bg-slate-600 text-slate-100 font-semibold rounded-lg transition-colors">
+        Close
+      </button>
+    </div>
   </div>
 </div>

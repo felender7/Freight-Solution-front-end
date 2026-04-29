@@ -16,11 +16,14 @@ export class HrLeaveComponent implements OnInit {
   showModal = false;
   leaveForm: FormGroup;
   selectedFile: File | null = null;
+  selectedDocuments: File[] = [];
   isLoading = false;
   errorMessage = '';
   successMessage = '';
   isEditMode = false;
   selectedLeaveId: number | null = null;
+  selectedLeave: LeaveRequest | null = null;
+  showDetailsModal = false;
 
   leaveStats = {
     annual: { used: 0, total: 21 },
@@ -103,7 +106,18 @@ export class HrLeaveComponent implements OnInit {
     this.selectedLeaveId = null;
     this.leaveForm.reset();
     this.selectedFile = null;
+    this.selectedDocuments = [];
     this.errorMessage = '';
+  }
+
+  viewDetails(leave: LeaveRequest): void {
+    this.selectedLeave = leave;
+    this.showDetailsModal = true;
+  }
+
+  closeDetailsModal(): void {
+    this.showDetailsModal = false;
+    this.selectedLeave = null;
   }
 
   editLeave(leave: LeaveRequest): void {
@@ -118,6 +132,7 @@ export class HrLeaveComponent implements OnInit {
       reason: leave.reason
     });
     this.selectedFile = null;
+    this.selectedDocuments = [];
     this.errorMessage = '';
   }
 
@@ -125,10 +140,15 @@ export class HrLeaveComponent implements OnInit {
     this.showModal = false;
     this.isEditMode = false;
     this.selectedLeaveId = null;
+    this.selectedDocuments = [];
   }
 
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
+  }
+
+  onDocumentsSelected(event: any): void {
+    this.selectedDocuments = Array.from(event.target.files);
   }
 
   onUploadNote(event: any, id: number): void {
@@ -175,6 +195,12 @@ export class HrLeaveComponent implements OnInit {
       } else {
         formData.append('leave_request[medical_certificate]', this.selectedFile);
       }
+    }
+
+    if (this.selectedDocuments.length > 0) {
+      this.selectedDocuments.forEach(doc => {
+        formData.append('leave_request[documents][]', doc);
+      });
     }
 
     const request$ = this.isEditMode && this.selectedLeaveId

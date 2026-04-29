@@ -11,6 +11,7 @@ export interface LeaveRequest {
   study_timetable_attached?: boolean;
   medical_certificate_url?: string;
   study_timetable_url?: string;
+  document_urls?: string[];
   created_at?: string;
   employee?: {
     first_name: string;
