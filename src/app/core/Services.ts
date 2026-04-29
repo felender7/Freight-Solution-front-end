@@ -19,6 +19,10 @@ export enum Services {
     HR_ATTENDANCE_STATUS = '/hrm/attendance_records/current_status',
     HR_ATTENDANCE_CLOCK_IN = '/hrm/attendance_records/clock_in',
     HR_ATTENDANCE_CLOCK_OUT = '/hrm/attendance_records/clock_out',
+    HR_LEAVE = '/hrm/leave_requests',
+    HR_LEAVE_APPROVE = '/hrm/leave_requests/:id/approve',
+    HR_LEAVE_REJECT = '/hrm/leave_requests/:id/reject',
+    HR_LEAVE_UPLOAD_MEDICAL = '/hrm/leave_requests/:id/upload_medical_certificate',
 
 // 3. Employee Management
     EMPLOYEE_DETAILS = '/hrm/employees/',

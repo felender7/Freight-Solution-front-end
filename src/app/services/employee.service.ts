@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { Observable, map } from 'rxjs';
+import { profile } from '../models/profile.model';
 
 export interface Employee {
   id: number;
@@ -30,5 +31,9 @@ export class EmployeeService {
     return this.getEmployeeById(id).pipe(
       map((employee: Employee) => `${employee.first_name} ${employee.last_name}`)
     );
+  }
+
+    getCurrentProfile(): Observable<profile> | null {
+    return this.httpService.sendRequest<profile>('/hrm/me',{},'GET');
   }
 }

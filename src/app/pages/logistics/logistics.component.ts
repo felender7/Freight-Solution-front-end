@@ -26,13 +26,8 @@ export class LogisticsComponent implements OnInit {
   pendingPickupCount = 3;
   delayedCount = 1;
   deliveredCount = 124;
-  
-  quickBooking = {
-    origin: '',
-    destination: '',
-    cargoType: '',
-    weight: 0
-  };
+  selectedVendor: string = '';
+ 
   
   activeShipments: Shipment[] = [
     {
@@ -81,7 +76,20 @@ export class LogisticsComponent implements OnInit {
       progress: 55
     }
   ];
+  vendors = [
+    { id: 'dhl', name: 'DHL' },
+    { id: 'fedex', name: 'FedEx' },
+    { id: 'ups', name: 'UPS' },
+    { id: 'argo', name: 'Argo Logistics' }
+  ];
 
+  quickBooking = {
+  vendor: '',
+  origin: '',
+  destination: '',
+  cargoType: '',
+  weight: null
+};
   constructor(private router: Router) {}
 
   ngOnInit(): void {
@@ -108,7 +116,7 @@ export class LogisticsComponent implements OnInit {
   }
 
   onSearchTracking(): void {
-    if (this.trackingNumber) {
+    if (this.trackingNumber || !this.selectedVendor) {
       this.router.navigate(['/logistics/tracking', this.trackingNumber]);
     }
   }
@@ -136,4 +144,5 @@ export class LogisticsComponent implements OnInit {
   formatDate(date: Date): string {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   }
+
 }

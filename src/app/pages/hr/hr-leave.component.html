@@ -1,0 +1,191 @@
+<div class="bg-slate-800 rounded-xl border border-slate-700 p-8">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+    <div>
+      <h3 class="text-xl font-bold text-slate-100">Leave Management</h3>
+      <p class="text-slate-400 text-sm">Request leave and track your leave balance</p>
+    </div>
+    <button (click)="openModal()" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
+      Request Leave
+    </button>
+  </div>
+
+  <div *ngIf="successMessage" class="mb-4 p-4 bg-green-500/10 border border-green-500/20 text-green-400 rounded-lg text-sm">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="mb-4 p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-sm">
+    {{ errorMessage }}
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg">
+      <p class="text-xs text-slate-500 uppercase font-semibold">Annual Leave</p>
+      <p class="text-2xl font-bold text-slate-100 mt-1">{{ leaveStats.annual.used }} / {{ leaveStats.annual.total }} Days</p>
+      <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2">
+        <div class="bg-blue-500 h-1.5 rounded-full" [style.width.%]="(leaveStats.annual.used / leaveStats.annual.total) * 100"></div>
+      </div>
+    </div>
+    <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg">
+      <p class="text-xs text-slate-500 uppercase font-semibold">Sick Leave</p>
+      <p class="text-2xl font-bold text-slate-100 mt-1">{{ leaveStats.sick.used }} / {{ leaveStats.sick.total }} Days</p>
+      <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2">
+        <div class="bg-green-500 h-1.5 rounded-full" [style.width.%]="(leaveStats.sick.used / leaveStats.sick.total) * 100"></div>
+      </div>
+    </div>
+    <div class="p-4 bg-slate-900 border border-slate-700 rounded-lg">
+      <p class="text-xs text-slate-500 uppercase font-semibold">Study Leave</p>
+      <p class="text-2xl font-bold text-slate-100 mt-1">{{ leaveStats.study.used }} / {{ leaveStats.study.total }} Days</p>
+      <div class="w-full bg-slate-700 h-1.5 rounded-full mt-2">
+        <div class="bg-purple-500 h-1.5 rounded-full" [style.width.%]="(leaveStats.study.used / leaveStats.study.total) * 100"></div>
+      </div>
+    </div>
+  </div>
+
+  <h4 class="text-slate-100 font-semibold mb-4">{{ isAdmin() ? 'All Leave Requests' : 'Your Leave History' }}</h4>
+  <div class="overflow-x-auto">
+    <table class="w-full text-left">
+      <thead>
+        <tr class="text-slate-500 text-xs uppercase tracking-wider border-b border-slate-700">
+          <th *ngIf="isAdmin()" class="px-4 py-3">Employee</th>
+          <th class="px-4 py-3">Type</th>
+          <th class="px-4 py-3">Period</th>
+          <th class="px-4 py-3">Days</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="text-slate-300 text-sm">
+        <tr *ngFor="let leave of leaveRequests" class="border-b border-slate-700/50 hover:bg-slate-700/20 transition-colors">
+          <td *ngIf="isAdmin()" class="px-4 py-4">
+            {{ leave.employee?.first_name }} {{ leave.employee?.last_name }}
+          </td>
+          <td class="px-4 py-4">{{ getLeaveTypeLabel(leave.leave_type) }}</td>
+          <td class="px-4 py-4">{{ leave.start_date | date }} - {{ leave.end_date | date }}</td>
+          <td class="px-4 py-4">{{ leave.number_of_days }} Days</td>
+          <td class="px-4 py-4">
+            <span [class]="'px-2 py-1 rounded-full text-xs ' + getStatusClass(leave.status)">
+              {{ leave.status | titlecase }}
+            </span>
+          </td>
+          <td class="px-4 py-4 text-right">
+            <div class="flex justify-end gap-2">
+              <a *ngIf="leave.medical_certificate_attached && leave.medical_certificate_url" [href]="leave.medical_certificate_url" target="_blank" class="text-indigo-400 hover:text-indigo-300 p-1" title="View Doctor's Note">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                </svg>
+              </a>
+              <a *ngIf="leave.study_timetable_attached && leave.study_timetable_url" [href]="leave.study_timetable_url" target="_blank" class="text-indigo-400 hover:text-indigo-300 p-1" title="View Timetable">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </a>
+              <ng-container *ngIf="!isAdmin() && ['sick', 'maternity', 'paternity'].includes(leave.leave_type) && !leave.medical_certificate_attached">
+                <label class="cursor-pointer text-blue-400 hover:text-blue-300 p-1" title="Upload Doctor's Note">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                  </svg>
+                  <input type="file" class="hidden" (change)="onUploadNote($event, leave.id!)">
+                </label>
+              </ng-container>
+              <button *ngIf="!isAdmin() && leave.status === 'pending'" (click)="editLeave(leave)" class="text-amber-400 hover:text-amber-300 p-1" title="Edit">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </button>
+              <ng-container *ngIf="isAdmin() && leave.status === 'pending'">
+                <button (click)="approveRequest(leave.id!)" class="text-green-400 hover:text-green-300 p-1" title="Approve">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </button>
+                <button (click)="rejectRequest(leave.id!)" class="text-red-400 hover:text-red-300 p-1" title="Reject">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </ng-container>
+              <button *ngIf="!isAdmin() && leave.status === 'pending'" (click)="deleteRequest(leave.id!)" class="text-slate-500 hover:text-red-400 p-1" title="Cancel">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="leaveRequests.length === 0 && !isLoading">
+          <td [attr.colspan]="isAdmin() ? 6 : 5" class="px-4 py-8 text-center text-slate-500">
+            No leave requests found.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div *ngIf="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4">
+  <div class="bg-slate-800 border border-slate-700 rounded-xl w-full max-w-lg shadow-2xl">
+    <div class="flex justify-between items-center p-6 border-b border-slate-700">
+      <h3 class="text-lg font-bold text-slate-100">{{ isEditMode ? 'Edit Leave Request' : 'Request Leave' }}</h3>
+      <button (click)="closeModal()" class="text-slate-400 hover:text-slate-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <form [formGroup]="leaveForm" (ngSubmit)="onSubmit()" class="p-6 space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-slate-400 mb-1">Leave Type</label>
+        <select formControlName="leave_type" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+          <option value="">Select Type</option>
+          <option *ngFor="let type of leaveTypes" [value]="type.value">{{ type.label }}</option>
+        </select>
+        <div *ngIf="leaveForm.get('leave_type')?.touched && leaveForm.get('leave_type')?.invalid" class="text-red-400 text-xs mt-1">
+          Please select a leave type.
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-400 mb-1">Start Date</label>
+          <input type="date" formControlName="start_date" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+          <div *ngIf="leaveForm.get('start_date')?.touched && leaveForm.get('start_date')?.invalid" class="text-red-400 text-xs mt-1">
+            Required.
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-400 mb-1">End Date</label>
+          <input type="date" formControlName="end_date" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+          <div *ngIf="leaveForm.get('end_date')?.touched && leaveForm.get('end_date')?.invalid" class="text-red-400 text-xs mt-1">
+            Required.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-400 mb-1">Reason</label>
+        <textarea formControlName="reason" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" placeholder="Provide a brief reason..."></textarea>
+        <div *ngIf="leaveForm.get('reason')?.touched && leaveForm.get('reason')?.invalid" class="text-red-400 text-xs mt-1">
+          Please provide a reason.
+        </div>
+      </div>
+
+      <div *ngIf="['sick', 'maternity', 'paternity', 'study'].includes(leaveForm.get('leave_type')?.value)">
+        <label class="block text-sm font-medium text-slate-400 mb-1">
+          {{ leaveForm.get('leave_type')?.value === 'study' ? 'Upload Timetable (Required)' : 'Upload Doctor\'s Note (Optional)' }}
+        </label>
+        <input type="file" (change)="onFileSelected($event)" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-slate-100 outline-none file:mr-4 file:py-1 file:px-3 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-blue-600 file:text-white hover:file:bg-blue-700">
+      </div>
+
+      <div class="pt-4 flex gap-3">
+        <button type="button" (click)="closeModal()" class="flex-1 px-6 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-100 font-semibold rounded-lg transition-colors">
+          Cancel
+        </button>
+        <button type="submit" [disabled]="isLoading" class="flex-1 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors">
+          {{ isLoading ? 'Processing...' : (isEditMode ? 'Update Request' : 'Submit Request') }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

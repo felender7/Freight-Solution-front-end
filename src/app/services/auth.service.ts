@@ -35,6 +35,9 @@ export class AuthService {
     return this._http.sendRequest<User>('/auth/me', {}, 'GET');
   }
 
+
+
+
   logout(): void {
     this._http.sendRequest<any>('/auth/logout', {}, 'POST').subscribe({
       next: () => this.clearSession(),

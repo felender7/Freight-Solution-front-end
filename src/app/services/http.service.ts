@@ -13,12 +13,16 @@ export class HttpService {
 
   constructor(private http: HttpClient) {}
 
-  private getHeaders(): HttpHeaders {
+  private getHeaders(isFormData: boolean = false): HttpHeaders {
     const token = localStorage.getItem('auth_token');
     let headers = new HttpHeaders({
-      'Content-Type': 'application/json',
       'Accept': 'application/json'
     });
+
+    if (!isFormData) {
+      headers = headers.set('Content-Type', 'application/json');
+    }
+
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
     }
@@ -31,8 +35,9 @@ export class HttpService {
     method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' = 'GET',
     params?: Record<string, string | number | boolean>
   ): Observable<T> {
+    const isFormData = payload instanceof FormData;
     const url = `${this.baseUrl}${endpoint}`;
-    const options: any = { headers: this.getHeaders() };
+    const options: any = { headers: this.getHeaders(isFormData) };
 
     if (params) {
       options.params = new HttpParams({ fromObject: params });
