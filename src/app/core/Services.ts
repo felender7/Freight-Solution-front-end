@@ -23,6 +23,9 @@ export enum Services {
     HR_LEAVE_APPROVE = '/hrm/leave_requests/:id/approve',
     HR_LEAVE_REJECT = '/hrm/leave_requests/:id/reject',
     HR_LEAVE_UPLOAD_MEDICAL = '/hrm/leave_requests/:id/upload_medical_certificate',
+    HR_TIMESHEETS = '/hrm/timesheets',
+    HR_TIMESHEETS_APPROVE = '/hrm/timesheets/:id/approve',
+    HR_TIMESHEETS_REJECT = '/hrm/timesheets/:id/reject',
 
 // 3. Employee Management
     EMPLOYEE_DETAILS = '/hrm/employees/',

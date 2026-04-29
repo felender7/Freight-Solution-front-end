@@ -1,0 +1,153 @@
+<div class="bg-slate-800 rounded-xl border border-slate-700 p-8">
+  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+    <div>
+      <h3 class="text-xl font-bold text-slate-100">Timesheets</h3>
+      <p class="text-slate-400 text-sm">Submit and track your weekly working hours</p>
+    </div>
+    <button (click)="openModal()" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
+      New Timesheet
+    </button>
+  </div>
+
+  <div *ngIf="successMessage" class="mb-4 p-4 bg-green-500/10 border border-green-500/20 text-green-400 rounded-lg text-sm">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="errorMessage" class="mb-4 p-4 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-sm">
+    {{ errorMessage }}
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full text-left">
+      <thead>
+        <tr class="text-slate-500 text-xs uppercase tracking-wider border-b border-slate-700">
+          <th *ngIf="isAdmin()" class="px-4 py-3">Employee</th>
+          <th class="px-4 py-3">Date</th>
+          <th class="px-4 py-3">Task / Project</th>
+          <th class="px-4 py-3">Hours</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3">Approved By</th>
+          <th class="px-4 py-3 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="text-slate-300 text-sm">
+        <tr *ngFor="let ts of timesheets" class="border-b border-slate-700/50 hover:bg-slate-700/20 transition-colors">
+          <td *ngIf="isAdmin()" class="px-4 py-4">
+            {{ ts.employee?.first_name }} {{ ts.employee?.last_name }}
+          </td>
+          <td class="px-4 py-4">{{ ts.date | date }}</td>
+          <td class="px-4 py-4">
+            <div class="font-medium text-slate-100">{{ ts.task?.title || 'No Task' }}</div>
+            <div class="text-xs text-slate-500 line-clamp-1">{{ ts.description }}</div>
+          </td>
+          <td class="px-4 py-4">{{ ts.hours_worked }}h</td>
+          <td class="px-4 py-4">
+            <span [class]="'px-2 py-1 rounded-full text-xs ' + getStatusClass(ts.status)">
+              {{ ts.status | titlecase }}
+            </span>
+          </td>
+          <td class="px-4 py-4">{{ ts.approved_by ? (ts.approved_by.first_name + ' ' + ts.approved_by.last_name) : '--' }}</td>
+          <td class="px-4 py-4 text-right">
+            <div class="flex justify-end gap-2">
+              <ng-container *ngIf="isAdmin() && ts.status === 'submitted'">
+                <button (click)="approveTimesheet(ts.id!)" class="text-green-400 hover:text-green-300 p-1" title="Approve">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                </button>
+                <button (click)="rejectTimesheet(ts.id!)" class="text-red-400 hover:text-red-300 p-1" title="Reject">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </ng-container>
+              <button *ngIf="!isAdmin() && ts.status === 'draft'" (click)="submitTimesheet(ts.id!)" class="text-blue-400 hover:text-blue-300 p-1" title="Submit">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+              </button>
+              <button *ngIf="!isAdmin() && ts.status === 'draft'" (click)="editTimesheet(ts)" class="text-amber-400 hover:text-amber-300 p-1" title="Edit">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+              </button>
+              <button *ngIf="ts.status === 'draft' || ts.status === 'submitted'" (click)="deleteTimesheet(ts.id!)" class="text-slate-500 hover:text-red-400 p-1" title="Delete">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="timesheets.length === 0 && !isLoading">
+          <td [attr.colspan]="isAdmin() ? 7 : 6" class="px-4 py-8 text-center text-slate-500">
+            No timesheets found.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div *ngIf="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4">
+  <div class="bg-slate-800 border border-slate-700 rounded-xl w-full max-w-lg shadow-2xl">
+    <div class="flex justify-between items-center p-6 border-b border-slate-700">
+      <h3 class="text-lg font-bold text-slate-100">{{ isEditMode ? 'Edit Timesheet' : 'New Timesheet' }}</h3>
+      <button (click)="closeModal()" class="text-slate-400 hover:text-slate-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <form [formGroup]="timesheetForm" class="p-6 space-y-4">
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-400 mb-1">Date</label>
+          <input type="date" formControlName="date" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+          <div *ngIf="timesheetForm.get('date')?.touched && timesheetForm.get('date')?.invalid" class="text-red-400 text-xs mt-1">
+            Required.
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-400 mb-1">Hours Worked</label>
+          <input type="number" step="0.5" formControlName="hours_worked" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" placeholder="e.g. 8">
+          <div *ngIf="timesheetForm.get('hours_worked')?.touched && timesheetForm.get('hours_worked')?.invalid" class="text-red-400 text-xs mt-1">
+            Min 0.5, Max 24.
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-400 mb-1">Task / Project (Optional)</label>
+        <select formControlName="task_id" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none">
+          <option value="">Select Task</option>
+          <option *ngFor="let task of tasks" [value]="task.id">{{ task.title }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium text-slate-400 mb-1">Description</label>
+        <textarea formControlName="description" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" placeholder="What did you work on?"></textarea>
+        <div *ngIf="timesheetForm.get('description')?.touched && timesheetForm.get('description')?.invalid" class="text-red-400 text-xs mt-1">
+          Required.
+        </div>
+      </div>
+
+      <div class="pt-4 flex flex-col gap-3">
+        <div class="flex gap-3">
+          <button type="button" (click)="onSubmit(false)" [disabled]="isLoading" class="flex-1 px-6 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-100 font-semibold rounded-lg transition-colors">
+            Save as Draft
+          </button>
+          <button type="button" (click)="onSubmit(true)" [disabled]="isLoading" class="flex-1 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors">
+            Submit Now
+          </button>
+        </div>
+        <button type="button" (click)="closeModal()" class="w-full px-6 py-2 bg-transparent text-slate-500 hover:text-slate-300 text-sm">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
