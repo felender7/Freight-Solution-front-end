@@ -34,6 +34,7 @@ import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-l
 import { HttpService } from './services/http.service';
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
+import { EmployeeService } from './services/employee.service';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,7 @@ import { AuthGuard } from './guards/auth.guard';
     DashboardLayoutComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule, ReactiveFormsModule],
-  providers: [HttpService, AuthService, AuthGuard],
+  providers: [HttpService, AuthService, AuthGuard, EmployeeService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

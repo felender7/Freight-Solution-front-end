@@ -1,0 +1,160 @@
+<div class="w-full space-y-6 mt-8">
+  <!-- Header -->
+  <div class="w-full relative bg-gradient-to-r from-slate-800 to-slate-800/50 rounded-2xl border border-slate-700/50 overflow-hidden">
+    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+    <div class="absolute bottom-0 left-0 w-48 h-48 bg-cyan-500/10 rounded-full blur-2xl -ml-24 -mb-24"></div>
+    
+    <div class="relative z-10 p-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <div class="p-2 bg-blue-500/20 rounded-xl">
+              <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <h1 class="text-2xl lg:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+              Attendance Tracking
+            </h1>
+          </div>
+          <p class="text-slate-400 ml-11">Clock in and out to track your daily working hours</p>
+        </div>
+
+        <!-- Current Status Badge -->
+        <div class="flex items-center gap-3 ml-11 lg:ml-0">
+          <div *ngIf="currentStatus?.status === 'clocked_in'" class="flex items-center gap-2 px-4 py-2 bg-green-500/10 rounded-lg border border-green-500/20">
+            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            <span class="text-green-400 text-sm font-medium">Currently Clocked In</span>
+          </div>
+          <div *ngIf="currentStatus?.status === 'clocked_out'" class="flex items-center gap-2 px-4 py-2 bg-slate-500/10 rounded-lg border border-slate-500/20">
+            <span class="w-2 h-2 bg-slate-400 rounded-full"></span>
+            <span class="text-slate-400 text-sm font-medium">Clocked Out</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error/Success Messages -->
+  <div *ngIf="error" class="bg-red-500/10 border border-red-500/30 rounded-xl p-4 flex items-center gap-3">
+    <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>
+    <span class="text-red-400">{{ error }}</span>
+  </div>
+
+  <div *ngIf="successMessage" class="bg-green-500/10 border border-green-500/30 rounded-xl p-4 flex items-center gap-3">
+    <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>
+    <span class="text-green-400">{{ successMessage }}</span>
+  </div>
+
+  <!-- Clock In/Out Buttons -->
+  <div class="w-full bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-2xl border border-slate-700/50 p-6">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="text-center">
+          <p class="text-slate-400 text-sm">Current Time</p>
+          <p class="text-2xl font-bold text-slate-100">{{ currentTime }}</p>
+        </div>
+        <div *ngIf="currentStatus?.status === 'clocked_in'" class="h-12 w-px bg-slate-700"></div>
+        <div *ngIf="currentStatus?.status === 'clocked_in'" class="text-center">
+          <p class="text-slate-400 text-sm">Clocked In At</p>
+          <p class="text-2xl font-bold text-green-400">{{ formatTime(currentStatus?.clock_in) }}</p>
+        </div>
+      </div>
+
+      <div class="flex gap-4">
+        <button 
+          (click)="clockIn()" 
+          [disabled]="currentStatus?.status === 'clocked_in' || isClockingIn"
+          class="px-8 py-3 bg-green-600 hover:bg-green-700 disabled:bg-green-600/50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all flex items-center gap-2">
+          <svg *ngIf="!isClockingIn" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+          </svg>
+          <div *ngIf="isClockingIn" class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          <span>{{ isClockingIn ? 'Clocking In...' : 'Clock In' }}</span>
+        </button>
+        <button 
+          (click)="clockOut()" 
+          [disabled]="currentStatus?.status !== 'clocked_in' || isClockingOut"
+          class="px-8 py-3 bg-red-600 hover:bg-red-700 disabled:bg-red-600/50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all flex items-center gap-2">
+          <svg *ngIf="!isClockingOut" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+          </svg>
+          <div *ngIf="isClockingOut" class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+          <span>{{ isClockingOut ? 'Clocking Out...' : 'Clock Out' }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="w-full grid grid-cols-2 lg:grid-cols-5 gap-4">
+    <div class="w-full bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-xl border border-slate-700/50 p-4">
+      <p class="text-slate-400 text-sm">Total Days</p>
+      <p class="text-2xl font-bold text-slate-100">{{ summary.total_days }}</p>
+    </div>
+    <div class="w-full bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-xl border border-slate-700/50 p-4">
+      <p class="text-slate-400 text-sm">Present</p>
+      <p class="text-2xl font-bold text-green-400">{{ summary.present }}</p>
+    </div>
+    <div class="w-full bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-xl border border-slate-700/50 p-4">
+      <p class="text-slate-400 text-sm">Late</p>
+      <p class="text-2xl font-bold text-yellow-400">{{ summary.late }}</p>
+    </div>
+    <div class="w-full bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-xl border border-slate-700/50 p-4">
+      <p class="text-slate-400 text-sm">Absent</p>
+      <p class="text-2xl font-bold text-red-400">{{ summary.absent }}</p>
+    </div>
+    <div class="w-full bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-xl border border-slate-700/50 p-4">
+      <p class="text-slate-400 text-sm">Total Hours</p>
+      <p class="text-2xl font-bold text-blue-400">{{ summary.total_hours }}h</p>
+    </div>
+  </div>
+
+  <!-- Attendance Records Table -->
+  <div class="w-full bg-gradient-to-br from-slate-800 to-slate-800/50 rounded-2xl border border-slate-700/50 overflow-hidden">
+    <div class="px-6 py-4 border-b border-slate-700/50">
+      <h3 class="text-lg font-semibold text-slate-100">Attendance History</h3>
+      <p class="text-sm text-slate-500">Your recent attendance records</p>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead class="bg-slate-900/30">
+          <tr>
+            <th class="text-left text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">Date</th>
+            <th class="text-left text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">Clock In</th>
+            <th class="text-left text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">Clock Out</th>
+            <th class="text-left text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">Duration</th>
+            <th class="text-left text-slate-400 text-xs font-semibold uppercase tracking-wider py-4 px-6">Status</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-700/30">
+          <tr *ngFor="let record of records" class="hover:bg-slate-700/20 transition-colors">
+            <td class="py-4 px-6 text-slate-200">{{ formatDate(record.date) }}</td>
+            <td class="py-4 px-6 text-slate-300">{{ formatTime(record.clock_in) }}</td>
+            <td class="py-4 px-6 text-slate-300">{{ formatTime(record.clock_out) }}</td>
+            <td class="py-4 px-6 text-slate-300 font-medium">{{ calculateDuration(record) }}</td>
+            <td class="py-4 px-6">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-medium border" [ngClass]="getStatusBadgeClass(record.status)">
+                {{ record.status | titlecase }}
+              </span>
+            </td>
+          </tr>
+          <tr *ngIf="records.length === 0 && !loading">
+            <td colspan="5" class="py-12 text-center text-slate-500">
+              <div *ngIf="loading" class="flex flex-col items-center gap-3">
+                <div class="w-8 h-8 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                <span>Loading attendance records...</span>
+              </div>
+              <div *ngIf="!loading">No attendance records found.</div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
